@@ -21,8 +21,10 @@ exports.createAccount = async (req, res) => {
         if (existingAccount.length > 0) {
             return res.status(400).send('Account with this email already exists');
         }
+        req.body.password = await authService.hashPassword(req.body.password);
         const account = await accountService.create(req.body);
-        res.status(201).json(account);
+        const token = authService.generateAccessToken(account);
+        res.status(201).json({ accessToken: token });
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -38,7 +40,7 @@ exports.login = async (req, res) => {
         if (account.length === 0) {
             return res.status(404).send('Account not found');
         }
-        if (account[0].password !== password) {
+        if (await authService.comparePassword(password, account[0].password) === false){
             return res.status(401).send('Invalid password');
         }
         const token = authService.generateAccessToken(account[0]);
