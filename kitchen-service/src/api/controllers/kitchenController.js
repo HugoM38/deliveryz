@@ -1,4 +1,5 @@
 const kitchenService = require('../../services/kitchenService');
+const { validateMenuItem } = require('../validators/newMenuItemValidator');
 
 exports.getAllOrdersId = async (req, res) => {
     const cookerId = req.params.cookerId
@@ -49,6 +50,9 @@ exports.getMenu = async (req, res)=> {
 
 exports.addItemToMenu = async (req, res) => {
     try {
+        const { error } = validateMenuItem(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
+
         const cookerId = req.params.cookerId;
         const newItem = req.body;
         const menu = await kitchenService.addItemToMenu(cookerId, newItem);
