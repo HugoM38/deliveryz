@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -6,16 +7,20 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors({
+    origin: true, // Pour les tests de développement, permet à toutes les origines d'accéder à votre API
+}));
+
 app.use('/accounts', createProxyMiddleware({
-    target: 'http://localhost:3003', 
+    target: 'http://localhost:3003',
     changeOrigin: true,
     pathRewrite: {
-        '^/accounts': '', 
+        '^/accounts': '',
     },
 }));
 
 app.use('/kitchens', authenticateToken, createProxyMiddleware({
-    target: 'http://localhost:3002', 
+    target: 'http://localhost:3002',
     changeOrigin: true,
     pathRewrite: {
         '^/kitchens': '',
@@ -23,7 +28,7 @@ app.use('/kitchens', authenticateToken, createProxyMiddleware({
 }));
 
 app.use('/orders', authenticateToken, createProxyMiddleware({
-    target: 'http://localhost:3001', 
+    target: 'http://localhost:3001',
     changeOrigin: true,
     pathRewrite: {
         '^/orders': '',
