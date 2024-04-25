@@ -10,6 +10,17 @@ class HomeCookerPage extends StatefulWidget {
 class _HomeCookerPageState extends State<HomeCookerPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'Home Cooker Page',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onBackground,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
   }
 }

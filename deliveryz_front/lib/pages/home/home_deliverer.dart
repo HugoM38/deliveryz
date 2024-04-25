@@ -10,6 +10,17 @@ class HomeDelivererPage extends StatefulWidget {
 class __HomeDelivererPageState extends State<HomeDelivererPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'Home Deliverer Page',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onBackground,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
   }
 }

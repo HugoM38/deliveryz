@@ -1,3 +1,4 @@
+import 'package:deliveryz_front/utils/shared_prefs_manager.dart';
 import 'package:flutter/material.dart';
 
 class HomeClientPage extends StatefulWidget {
@@ -10,6 +11,17 @@ class HomeClientPage extends StatefulWidget {
 class _HomeClientPageState extends State<HomeClientPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'Home Client Page',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onBackground,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -109,11 +109,11 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         );
                         if (_selectedRole == 'Client') {
-                          Navigator.pushNamed(context, '/home-client');
+                          Navigator.pushReplacementNamed(context, '/home-client');
                         } else if (_selectedRole == 'Livreur') {
-                          Navigator.pushNamed(context, '/home-deliverer');
+                          Navigator.pushReplacementNamed(context, '/home-deliverer');
                         } else if (_selectedRole == 'Restaurant') {
-                          Navigator.pushNamed(context, '/home-cooker');
+                          Navigator.pushReplacementNamed(context, '/home-cooker');
                         }
                       }).catchError((error) {
                         ScaffoldMessenger.of(context).showSnackBar(
