@@ -1,7 +1,9 @@
 import 'package:deliveryz_front/pages/auth/login.dart';
+import 'package:deliveryz_front/pages/home/home_cooker.dart';
+import 'package:deliveryz_front/pages/home/home_deliverer.dart';
 import 'package:flutter/material.dart';
 
-import 'pages/home/home.dart';
+import 'pages/home/home_client.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +19,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         '/login': (context) => const LoginPage(),
-        '/home': (context) => const HomePage(),
+        '/home-client': (context) => const HomeClientPage(),
+        '/home-cooker': (context) => const HomeCookerPage(),
+        '/home-deliverer': (context) => const HomeDelivererPage(),
       },
       theme: ThemeData(
               colorScheme: const ColorScheme(

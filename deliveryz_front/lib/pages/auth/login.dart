@@ -94,8 +94,8 @@ class _LoginPageState extends State<LoginPage> {
               ElevatedButton(
                   onPressed: () async {
                     if (checkForms()) {
-                        login(
-                              _emailController.text, _passwordController.text, _selectedRole!)
+                      login(_emailController.text, _passwordController.text,
+                              _selectedRole!)
                           .then((_) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -108,7 +108,13 @@ class _LoginPageState extends State<LoginPage> {
                                 )),
                           ),
                         );
-                        Navigator.pushNamed(context, '/home');
+                        if (_selectedRole == 'Client') {
+                          Navigator.pushNamed(context, '/home-client');
+                        } else if (_selectedRole == 'Livreur') {
+                          Navigator.pushNamed(context, '/home-deliverer');
+                        } else if (_selectedRole == 'Restaurant') {
+                          Navigator.pushNamed(context, '/home-cooker');
+                        }
                       }).catchError((error) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(

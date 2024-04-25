@@ -1,3 +1,4 @@
+import 'package:deliveryz_front/utils/shared_prefs_manager.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -26,9 +27,14 @@ Future<void> login(String email, String password, String role) async {
       },
       body: jsonEncode({'email': email, 'password': password}),
     );
+
     if (response.statusCode != 200) {
       throw Exception(response.body);
     }
+
+    var token = jsonDecode(response.body)['accessToken'];
+    await SharedPrefsManager.logUser(token, role);
+    
   } catch (e) {
     throw Exception(e.toString());
   }
