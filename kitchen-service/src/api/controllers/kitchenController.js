@@ -13,7 +13,7 @@ exports.getAllOrdersId = async (req, res) => {
 
 exports.getAllCooker = async (req, res) => {
     try {
-        const orders = await kitchenService.findAllCooker();
+        const orders = await kitchenService.getAllCooker();
         res.json(orders);
     } catch (error) {
         res.status(500).send(error.message);
