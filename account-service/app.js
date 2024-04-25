@@ -3,7 +3,7 @@ require('dotenv').config();
 const accountRoutes = require('./src/api/routes/accountRoutes');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3003;
 
 app.use(express.json());
 app.use('/', accountRoutes);

@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3002;
 
 app.use(express.json());
 app.use(bodyParser.json());
-app.use('/kitchen', accountRoutes);
+app.use('/', accountRoutes);
 
 app.listen(PORT, () => {
     console.log(`Account Service running on port ${PORT}`);

@@ -7,7 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
-app.use('/orders', orderRoutes);
+app.use('/', orderRoutes);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
