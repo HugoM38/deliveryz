@@ -3,10 +3,24 @@ import 'dart:convert';
 
 var baseUrl = 'http://localhost:3000/accounts/';
 
-Future<void> clientLogin(String email, String password) async {
+Future<void> login(String email, String password, String role) async {
+  Uri url;
+  switch (role) {
+    case "Client":
+      url = Uri.parse("${baseUrl}clients/login");
+      break;
+    case "Livreur":
+      url = Uri.parse("${baseUrl}deliverers/login");
+      break;
+    case "Restaurant":
+      url = Uri.parse("${baseUrl}cookers/login");
+      break;
+    default:
+      url = Uri.parse("${baseUrl}clients/login");
+  }
   try {
     var response = await http.post(
-      Uri.parse("${baseUrl}clients/login"),
+      url,
       headers: <String, String>{
         'Content-Type': 'application/json',
       },

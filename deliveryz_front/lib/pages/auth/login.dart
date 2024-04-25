@@ -13,6 +13,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  String? _selectedRole = 'Client';
 
   @override
   Widget build(BuildContext context) {
@@ -63,11 +64,38 @@ class _LoginPageState extends State<LoginPage> {
                     )),
               ),
               const SizedBox(height: 16),
+              DropdownButton<String>(
+                value: _selectedRole,
+                icon: Icon(
+                  Icons.arrow_downward,
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+                elevation: 16,
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onBackground),
+                underline: Container(
+                  height: 2,
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedRole = newValue;
+                  });
+                },
+                items: <String>['Client', 'Livreur', 'Restaurant']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 16),
               ElevatedButton(
                   onPressed: () async {
                     if (checkForms()) {
-                      clientLogin(
-                              _emailController.text, _passwordController.text)
+                        login(
+                              _emailController.text, _passwordController.text, _selectedRole!)
                           .then((_) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -84,7 +112,8 @@ class _LoginPageState extends State<LoginPage> {
                       }).catchError((error) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            backgroundColor: Theme.of(context).colorScheme.error,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error,
                             content: Text(
                               error.toString(),
                               style: TextStyle(
