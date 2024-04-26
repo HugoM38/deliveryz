@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 app.use(cors({
-    origin: true, // Pour les tests de développement, permet à toutes les origines d'accéder à votre API
+    origin: true,
 }));
 app.use('/', orderRoutes);
 app.use(errorHandler);

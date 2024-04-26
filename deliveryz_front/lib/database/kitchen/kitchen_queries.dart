@@ -115,24 +115,3 @@ Future<List<List<String>>?> getOrders() async {
 Future<void> orderReady() async {
   return;
 }
-
-Future<List<dynamic>> getOrdersByCooker(String cookerId) async {
-  Uri url = Uri.parse("${baseUrl}orders/$cookerId");
-  try {
-    var response = await http.get(
-      url,
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ${ await SharedPrefsManager.getToken()}',
-      },
-    );
-
-    if (response.statusCode != 200) {
-      throw Exception('Failed to load orders: ${response.body}');
-    }
-
-    return jsonDecode(response.body); 
-  } catch (e) {
-    throw Exception('Failed to fetch orders: ${e.toString()}');
-  }
-}
