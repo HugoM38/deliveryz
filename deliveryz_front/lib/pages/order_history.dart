@@ -20,11 +20,8 @@ class _OrdersPageState extends State<OrdersPage> {
 
   void _loadUserData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    //String userId = prefs.getString('id') ?? '';
-    //String role = prefs.getString('role') ?? '';
-    String userId = 'bGiPILDHMYShgJrIjHlv'; // Hardcoded pour le test
-    String role = 'Restaurant';
-    print("Role: $role");
+    String userId = prefs.getString('id') ?? '';
+    String role = prefs.getString('role') ?? '';
 
     if (role == 'Restaurant') {
       futureOrders = getOrdersByCooker(userId);
