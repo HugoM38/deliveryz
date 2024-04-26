@@ -1,5 +1,6 @@
 import 'package:deliveryz_front/database/kitchen/kitchen_queries.dart';
 import 'package:deliveryz_front/pages/kitchen/kitchen_menu.dart';
+import 'package:deliveryz_front/pages/order_history.dart';
 import 'package:deliveryz_front/utils/shared_prefs_manager.dart';
 import 'package:flutter/material.dart';
 import '../kitchen/order_item.dart'; // Assurez-vous d'importer correctement votre OrdersPage
@@ -31,6 +32,20 @@ class _HomeCookerPageState extends State<HomeCookerPage> {
                       backgroundColor: MaterialStateProperty.all<Color>(
                           Theme.of(context).colorScheme.background),
                     ),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const OrdersPage(),
+                        ),
+                      );
+                    },
+                    child: const Text('View Order History'),
+                  ),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).colorScheme.background),
+                    ),
                     onPressed: () async {
                       String id = (await SharedPrefsManager.getId())!;
                       getCookers().then((cookers) {
@@ -38,7 +53,8 @@ class _HomeCookerPageState extends State<HomeCookerPage> {
                           if (cooker.id == id) {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => KitchenMenuPage(cooker: cooker),
+                                builder: (context) =>
+                                    KitchenMenuPage(cooker: cooker),
                               ),
                             );
                           }
@@ -46,7 +62,8 @@ class _HomeCookerPageState extends State<HomeCookerPage> {
                       }).catchError((e) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            backgroundColor: Theme.of(context).colorScheme.error,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error,
                             content: Text(e,
                                 style: TextStyle(
                                   color: Theme.of(context).colorScheme.onError,
@@ -70,7 +87,7 @@ class _HomeCookerPageState extends State<HomeCookerPage> {
                       }
                     },
                     child: const Text('Déconnexion'),
-                  )
+                  ),
                 ],
               ),
               body: Center(
@@ -88,7 +105,8 @@ class _HomeCookerPageState extends State<HomeCookerPage> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      Expanded( // Ajoutez Expanded autour de la Row pour distribuer l'espace disponible
+                      Expanded(
+                        // Ajoutez Expanded autour de la Row pour distribuer l'espace disponible
                         child: Row(
                           children: [
                             Expanded(
@@ -96,12 +114,16 @@ class _HomeCookerPageState extends State<HomeCookerPage> {
                                 padding: const EdgeInsets.all(16.0),
                                 child: Column(
                                   children: [
-                                    for (int index = 0; index < orders.length; index++)
+                                    for (int index = 0;
+                                        index < orders.length;
+                                        index++)
                                       if (orders[index]["status"] == "pending")
                                         OrderItemWidget(
                                           orderId: '${orders[index]["id"]}',
-                                          product: '${orders[index]["productName"]}',
-                                          price: '${orders[index]["totalPrice"]}',
+                                          product:
+                                              '${orders[index]["productName"]}',
+                                          price:
+                                              '${orders[index]["totalPrice"]}',
                                           status: '${orders[index]["status"]}',
                                           isEnabled: true,
                                         ),
@@ -110,26 +132,27 @@ class _HomeCookerPageState extends State<HomeCookerPage> {
                                 ),
                               ),
                             ),
-
                             Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  children: [
-                                    for (int index = 0; index < orders.length; index++)
-                                      if (orders[index]["status"] != "pending")
-                                        OrderItemWidget(
-                                          orderId: '${orders[index]["id"]}',
-                                          product: '${orders[index]["productName"]}',
-                                          price: '${orders[index]["totalPrice"]}',
-                                          status: '${orders[index]["status"]}',
-                                          isEnabled: true,
-                                        ),
-                                    const SizedBox(height: 16),
-                                  ],
-                                ),
-                              )
-                            )
+                                child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                children: [
+                                  for (int index = 0;
+                                      index < orders.length;
+                                      index++)
+                                    if (orders[index]["status"] != "pending")
+                                      OrderItemWidget(
+                                        orderId: '${orders[index]["id"]}',
+                                        product:
+                                            '${orders[index]["productName"]}',
+                                        price: '${orders[index]["totalPrice"]}',
+                                        status: '${orders[index]["status"]}',
+                                        isEnabled: true,
+                                      ),
+                                  const SizedBox(height: 16),
+                                ],
+                              ),
+                            ))
                           ],
                         ),
                       )
@@ -139,15 +162,14 @@ class _HomeCookerPageState extends State<HomeCookerPage> {
               ),
             );
           }
-        }
-    );
+        });
   }
 }
+
 String id = '';
 var orders;
 
 Future<void> getData() async {
   id = (await SharedPrefsManager.getId())!;
   orders = await getOrdersByCooker(id);
-
 }

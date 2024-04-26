@@ -59,11 +59,6 @@ class _OrdersPageState extends State<OrdersPage> {
                 child: ListTile(
                   title: Text(
                     order.productName ?? 'No product name',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
                   ),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

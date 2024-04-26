@@ -1,6 +1,7 @@
 import 'package:deliveryz_front/database/kitchen/kitchen_queries.dart';
 import 'package:deliveryz_front/models/user.dart';
 import 'package:deliveryz_front/pages/kitchen/kitchen_menu.dart';
+import 'package:deliveryz_front/pages/order_history.dart';
 import 'package:deliveryz_front/utils/shared_prefs_manager.dart';
 import 'package:flutter/material.dart';
 
@@ -31,6 +32,20 @@ class _HomeClientPageState extends State<HomeClientPage> {
         title: const Text('DeliveryZ'),
         actions: [
           ElevatedButton(
+             style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                  Theme.of(context).colorScheme.background),
+            ),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const OrdersPage(),
+                  ),
+                );
+              },
+              child: const Text('View Order History'),
+            ),
+          ElevatedButton(
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(
                   Theme.of(context).colorScheme.error),
@@ -43,7 +58,7 @@ class _HomeClientPageState extends State<HomeClientPage> {
               }
             },
             child: const Text('Déconnexion'),
-          )
+          ),
         ],
       ),
       body: Padding(
