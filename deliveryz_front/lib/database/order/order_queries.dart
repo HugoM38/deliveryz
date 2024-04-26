@@ -115,4 +115,22 @@ class OrderService {
       throw Exception('Failed to fetch orders: ${e.toString()}');
     }
   }
+
+  Future<Order> createOrder(Map<String, dynamic> orderData) async {
+    final uri = Uri.parse(baseUrl);
+    final response = await http.post(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${await SharedPrefsManager.getToken()}',
+      },
+      body: jsonEncode(orderData),
+    );
+
+    if (response.statusCode == 201) {
+      return Order.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to create order: ${response.body}');
+    }
+  }
 }

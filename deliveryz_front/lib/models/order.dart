@@ -25,4 +25,15 @@ class Order {
       status: json['status'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'quantity': quantity,
+      'totalPrice': totalPrice,
+      'clientId': clientId,
+      'cookerId': cookerId,
+      'productName': productName,
+      'status': status,
+    };
+  }
 }

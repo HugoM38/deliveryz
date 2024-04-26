@@ -4,7 +4,6 @@ import 'package:deliveryz_front/models/user.dart';
 import 'package:deliveryz_front/utils/shared_prefs_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'menu_item.dart';
 
 import '../../database/kitchen/kitchen_queries.dart';
@@ -46,8 +45,8 @@ class KitchenMenuPage extends StatelessWidget {
                     for (int index = 0; index < jsonList.length; index++)
                       MenuItemWidget(
                         isCookerOwner: isCookerOwner,
-                        leftText: jsonList[index]['name'],
-                        rightText: '\$${jsonList[index]['price']}',
+                        name: jsonList[index]['name'],
+                        price: jsonList[index]['price'],
                         onPressed: () {
                           removeMenu(id, index).then((_) {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -84,6 +83,7 @@ class KitchenMenuPage extends StatelessWidget {
                             );
                           });
                         },
+                        cooker: cooker,
                       ),
                     const SizedBox(height: 16),
                     Visibility(
@@ -98,12 +98,14 @@ class KitchenMenuPage extends StatelessWidget {
                               decoration: InputDecoration(
                                 labelText: 'Item name',
                                 labelStyle: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onBackground,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
                                 ),
                               ),
                               style: TextStyle(
-                                color: Theme.of(context).colorScheme.onBackground,
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
                               ),
                             ),
                           ),
@@ -124,12 +126,14 @@ class KitchenMenuPage extends StatelessWidget {
                               decoration: InputDecoration(
                                 labelText: 'Price',
                                 labelStyle: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onBackground,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
                                 ),
                               ),
                               style: TextStyle(
-                                color: Theme.of(context).colorScheme.onBackground,
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
                               ),
                             ),
                           ),
@@ -181,6 +185,18 @@ class KitchenMenuPage extends StatelessWidget {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        'Retour',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
