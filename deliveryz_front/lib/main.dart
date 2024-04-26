@@ -8,7 +8,7 @@ import 'package:deliveryz_front/utils/auth_observer.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/home/home_client.dart';
-import 'pages/order.dart';
+import 'pages/order_history.dart';
 
 void main() {
   runApp(const MyApp());

@@ -93,3 +93,24 @@ Future<List<List<String>>?> getOrders() async {
 Future<void> orderReady() async {
   return;
 }
+
+Future<List<dynamic>> getOrdersByCooker(String cookerId) async {
+  Uri url = Uri.parse("${baseUrl}orders/$cookerId");
+  try {
+    var response = await http.get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imh1Z28iLCJpZCI6ImJHaVBJTERITVlTaGdKcklqSGx2IiwiaWF0IjoxNzE0MTI0NDMzLCJleHAiOjE3MTQxMjYyMzN9.ri551T1jxrsPwtOlVA3zruMqxdLYCk3GaAH4GbTqS6Q',
+      },
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load orders: ${response.body}');
+    }
+
+    return jsonDecode(response.body); 
+  } catch (e) {
+    throw Exception('Failed to fetch orders: ${e.toString()}');
+  }
+}
