@@ -1,3 +1,5 @@
+import 'package:deliveryz_front/models/user.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -19,6 +21,7 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _postalCodeController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _cookerNameController = TextEditingController();
 
   String? _selectedRole = 'Client';
 
@@ -40,35 +43,74 @@ class _SignupPageState extends State<SignupPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 16),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  child: TextField(
-                      controller: _firstnameController,
-                      decoration: InputDecoration(
-                        labelStyle: TextStyle(
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                        labelText: 'Prénom',
+                Visibility(
+                  visible: _selectedRole == 'Restaurant',
+                  child: Stack(
+                    children: [
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        child: TextField(
+                            controller: _cookerNameController,
+                            decoration: InputDecoration(
+                              labelStyle: TextStyle(
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
+                              ),
+                              labelText: 'Nom du restaurant',
+                            ),
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onBackground,
+                            )),
                       ),
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onBackground,
-                      )),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 16),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  child: TextField(
-                      controller: _lastnameController,
-                      decoration: InputDecoration(
-                        labelStyle: TextStyle(
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                        labelText: 'Nom',
+                Visibility(
+                  visible: _selectedRole != 'Restaurant',
+                  child: Stack(
+                    children: [
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        child: TextField(
+                            controller: _firstnameController,
+                            decoration: InputDecoration(
+                              labelStyle: TextStyle(
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
+                              ),
+                              labelText: 'Prénom',
+                            ),
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onBackground,
+                            )),
                       ),
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onBackground,
-                      )),
+                    ],
+                  ),
+                ),
+                Visibility(
+                  visible: _selectedRole != 'Restaurant',
+                  child: Stack(
+                    children: [
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        child: TextField(
+                            controller: _lastnameController,
+                            decoration: InputDecoration(
+                              labelStyle: TextStyle(
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
+                              ),
+                              labelText: 'Nom',
+                            ),
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onBackground,
+                            )),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 16),
                 SizedBox(
@@ -217,30 +259,96 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   checkForms() {
-    return (_emailController.text.isNotEmpty &&
-        _passwordController.text.isNotEmpty &&
-        _firstnameController.text.isNotEmpty &&
-        _lastnameController.text.isNotEmpty &&
-        _addressController.text.isNotEmpty &&
-        _cityController.text.isNotEmpty &&
-        _postalCodeController.text.isNotEmpty &&
-        _phoneNumberController.text.isNotEmpty &&
-        _selectedRole != null);
+    bool valid = false;
+    switch (_selectedRole) {
+      case 'Client':
+        valid = _emailController.text.isNotEmpty &&
+            _passwordController.text.isNotEmpty &&
+            _firstnameController.text.isNotEmpty &&
+            _lastnameController.text.isNotEmpty &&
+            _addressController.text.isNotEmpty &&
+            _cityController.text.isNotEmpty &&
+            _postalCodeController.text.isNotEmpty &&
+            _phoneNumberController.text.isNotEmpty;
+        break;
+      case 'Livreur':
+        valid = _emailController.text.isNotEmpty &&
+            _passwordController.text.isNotEmpty &&
+            _firstnameController.text.isNotEmpty &&
+            _lastnameController.text.isNotEmpty &&
+            _addressController.text.isNotEmpty &&
+            _cityController.text.isNotEmpty &&
+            _postalCodeController.text.isNotEmpty &&
+            _phoneNumberController.text.isNotEmpty;
+        break;
+      case 'Restaurant':
+        valid = _emailController.text.isNotEmpty &&
+            _passwordController.text.isNotEmpty &&
+            _addressController.text.isNotEmpty &&
+            _cityController.text.isNotEmpty &&
+            _postalCodeController.text.isNotEmpty &&
+            _phoneNumberController.text.isNotEmpty &&
+            _cookerNameController.text.isNotEmpty;
+        break;
+      default:
+        valid = false;
+    }
+    return valid;
   }
 
   submit() async {
     if (checkForms()) {
-      signup(
-              _emailController.text,
-              _passwordController.text,
-              _selectedRole!,
-              _firstnameController.text,
-              _lastnameController.text,
-              _addressController.text,
-              _cityController.text,
-              _postalCodeController.text,
-              _phoneNumberController.text)
-          .then((_) {
+      User user;
+
+      switch (_selectedRole) {
+        case 'Client':
+          user = Client(
+            firstName: _firstnameController.text,
+            lastName: _lastnameController.text,
+            email: _emailController.text,
+            password: _passwordController.text,
+            address: _addressController.text,
+            city: _cityController.text,
+            postalCode: _postalCodeController.text,
+            phoneNumber: _phoneNumberController.text,
+          );
+          break;
+        case 'Livreur':
+          user = Deliverer(
+            firstName: _firstnameController.text,
+            lastName: _firstnameController.text,
+            email: _emailController.text,
+            password: _passwordController.text,
+            address: _addressController.text,
+            city: _cityController.text,
+            postalCode: _postalCodeController.text,
+            phoneNumber: _phoneNumberController.text,
+          );
+          break;
+        case 'Restaurant':
+          user = Cooker(
+              email: _emailController.text,
+              password: _passwordController.text,
+              address: _addressController.text,
+              city: _cityController.text,
+              postalCode: _postalCodeController.text,
+              phoneNumber: _phoneNumberController.text,
+              cookerName: _cookerNameController.text,
+              menu: []);
+          break;
+        default:
+          user = Client(
+            firstName: _firstnameController.text,
+            lastName: _lastnameController.text,
+            email: _emailController.text,
+            password: _passwordController.text,
+            address: _addressController.text,
+            city: _cityController.text,
+            postalCode: _postalCodeController.text,
+            phoneNumber: _phoneNumberController.text,
+          );
+      }
+      signup(user, _selectedRole!).then((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Theme.of(context).colorScheme.secondary,
