@@ -112,45 +112,57 @@ class _HomeCookerPageState extends State<HomeCookerPage> {
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  children: [
-                                    for (int index = 0;
-                                        index < orders.length;
-                                        index++)
-                                      if (orders[index]["status"] == "pending")
-                                        OrderItemWidget(
-                                          orderId: '${orders[index]["id"]}',
-                                          product:
-                                              '${orders[index]["productName"]}',
-                                          price:
-                                              '${orders[index]["totalPrice"]}',
-                                          status: '${orders[index]["status"]}',
-                                          isEnabled: true,
-                                        ),
-                                    const SizedBox(height: 16),
-                                  ],
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).colorScheme.onBackground,
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      for (int index = 0;
+                                          index < orders.length;
+                                          index++)
+                                        if (orders[index]["status"] == "pending")
+                                          OrderItemWidget(
+                                            orderId: '${orders[index]["id"]}',
+                                            product:
+                                                '${orders[index]["productName"]}',
+                                            price:
+                                                '${orders[index]["totalPrice"]}',
+                                            status: '${orders[index]["status"]}',
+                                            isEnabled: true,
+                                          ),
+                                      const SizedBox(height: 16),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                             Expanded(
                                 child: Padding(
                               padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                children: [
-                                  for (int index = 0;
-                                      index < orders.length;
-                                      index++)
-                                    if (orders[index]["status"] != "pending")
-                                      OrderItemWidget(
-                                        orderId: '${orders[index]["id"]}',
-                                        product:
-                                            '${orders[index]["productName"]}',
-                                        price: '${orders[index]["totalPrice"]}',
-                                        status: '${orders[index]["status"]}',
-                                        isEnabled: true,
-                                      ),
-                                  const SizedBox(height: 16),
-                                ],
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.onBackground,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Column(
+                                  children: [
+                                    for (int index = 0;
+                                        index < orders.length;
+                                        index++)
+                                      if (orders[index]["status"] != "pending")
+                                        OrderItemWidget(
+                                          orderId: '${orders[index]["id"]}',
+                                          product:
+                                              '${orders[index]["productName"]}',
+                                          price: '${orders[index]["totalPrice"]}',
+                                          status: '${orders[index]["status"]}',
+                                          isEnabled: true,
+                                        ),
+                                    const SizedBox(height: 16),
+                                  ],
+                                ),
                               ),
                             ))
                           ],
