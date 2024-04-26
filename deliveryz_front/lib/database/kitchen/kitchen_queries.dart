@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:deliveryz_front/utils/shared_prefs_manager.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:deliveryz_front/models/user.dart';
 import 'package:http/http.dart' as http;
 
 var baseUrl = 'http://localhost:3000/kitchens/';
@@ -82,8 +82,30 @@ Future<void> removeMenu(String cookerId, int id) async {
   }
 }
 
-Future<List<List<String>>?> getCookers() async {
-  return null;
+Future<List<Cooker>?> getCookers() async {
+  Uri url = Uri.parse(baseUrl);
+  try {
+    var response = await http.get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${await SharedPrefsManager.getToken()}',
+      },
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception(response.body);
+    }
+
+    List<Cooker> cookers = [];
+
+    for (var cooker in jsonDecode(response.body)) {
+      cookers.add(Cooker.fromJson(cooker));
+    }
+    return cookers;
+  } catch (e) {
+    throw Exception(e.toString());
+  }
 }
 
 Future<List<List<String>>?> getOrders() async {
