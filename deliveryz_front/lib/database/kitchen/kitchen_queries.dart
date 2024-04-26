@@ -126,7 +126,6 @@ Future<List<dynamic>> getOrdersByCooker(String cookerId) async {
         'Authorization': 'Bearer ${ await SharedPrefsManager.getToken()}',
       },
     );
-
     if (response.statusCode != 200) {
       throw Exception('Failed to load orders: ${response.body}');
     }

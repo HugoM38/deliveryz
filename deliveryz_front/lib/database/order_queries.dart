@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import '../utils/shared_prefs_manager.dart';
 import '/models/order.dart';
 
 class OrderService {
   final String baseUrl = 'http://localhost:3000/orders/';
-  final String accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imh1Z3plciIsImlkIjoiZjdIdktrbjd6S29OaVRrcklQdU0iLCJpYXQiOjE3MTQwNjU3NTUsImV4cCI6MTcxNDA2NzU1NX0.uLaOMUiawSc7gEp-BmR9N9uRGqMDBwShaD_bCaqWkgA';
 
   Future<List<Order>> fetchOrders() async {
     print('Starting to fetch orders...');
@@ -15,7 +16,7 @@ class OrderService {
         uri,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $accessToken',
+          'Authorization': 'Bearer ${ await SharedPrefsManager.getToken()}',
         },
       );
       print('HTTP status code: ${response.statusCode}');
@@ -41,13 +42,32 @@ class OrderService {
       uri,
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer $accessToken',
+        'Authorization': 'Bearer ${ await SharedPrefsManager.getToken()}',
       },
       body: jsonEncode(orderData),
     );
 
     if (response.statusCode == 201) {
       return Order.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to create order: ${response.body}');
+    }
+  }
+
+  Future<void> cancelOrder(orderId) async {
+    final uri =  Uri.parse("$baseUrl/cancel/$orderId");
+    final response = await http.put(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${ await SharedPrefsManager.getToken()}',
+      },
+      body: jsonEncode({
+        'itemId': "canceled",
+      }),
+    );
+    if (response.statusCode == 200) {
+      return;
     } else {
       throw Exception('Failed to create order: ${response.body}');
     }
