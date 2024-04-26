@@ -15,6 +15,11 @@ class SharedPrefsManager {
     await prefs.remove('id');
   }
 
+  static Future<bool> isUserLogged() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.containsKey('token');
+  }
+
   static Future<String?> getToken() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');

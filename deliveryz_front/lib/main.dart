@@ -4,6 +4,7 @@ import 'package:deliveryz_front/pages/home/home_cooker.dart';
 import 'package:deliveryz_front/pages/home/home_deliverer.dart';
 import 'package:deliveryz_front/pages/kitchen/kitchen.dart';
 import 'package:deliveryz_front/pages/kitchen/kitchenOrder.dart';
+import 'package:deliveryz_front/utils/auth_observer.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/home/home_client.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'DeliveryZ',
       debugShowCheckedModeBanner: false,
+      navigatorObservers: [AuthObserver()],
       routes: <String, WidgetBuilder>{
         '/login': (context) => const LoginPage(),
         '/signup':(context) => const SignupPage(),
@@ -48,7 +50,7 @@ class MyApp extends StatelessWidget {
                 onSurface: Color(0xffEAF0CE),
               ),
             ),
-      home: const LoginPage(),
+      initialRoute: '/login',
     );
   }
 }
