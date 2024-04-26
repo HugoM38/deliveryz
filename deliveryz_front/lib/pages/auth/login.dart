@@ -136,6 +136,19 @@ class _LoginPageState extends State<LoginPage> {
                       color: Theme.of(context).colorScheme.onPrimary,
                     ),
                   )),
+                const SizedBox(height: 16),
+              // Button to navigate to Orders Page
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/order');
+                },
+                child: Text(
+                  'Go to Orders',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
