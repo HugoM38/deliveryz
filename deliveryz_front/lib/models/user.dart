@@ -1,4 +1,5 @@
 abstract class User {
+  final String? id;
   final String email;
   final String password;
   final String address;
@@ -7,6 +8,7 @@ abstract class User {
   final String phoneNumber;
 
   User({
+    this.id,
     required this.email,
     required this.password,
     required this.address,
@@ -23,6 +25,7 @@ class Client extends User {
   final String lastName;
 
   Client({
+    super.id,
     required this.firstName,
     required this.lastName,
     required super.email,
@@ -35,6 +38,7 @@ class Client extends User {
 
   factory Client.fromJson(Map<String, dynamic> json) {
     return Client(
+      id: json['id'],
       firstName: json['firstName'],
       lastName: json['lastName'],
       email: json['email'],
@@ -49,6 +53,7 @@ class Client extends User {
   @override
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'firstName': firstName,
       'lastName': lastName,
       'email': email,
@@ -66,6 +71,7 @@ class Cooker extends User {
   final List menu;
 
   Cooker({
+    super.id,
     required this.cookerName,
     required this.menu,
     required super.email,
@@ -78,6 +84,7 @@ class Cooker extends User {
 
   factory Cooker.fromJson(Map<String, dynamic> json) {
     return Cooker(
+      id: json['id'],
       cookerName: json['cookerName'],
       menu: json['menu'],
       email: json['email'],
@@ -92,6 +99,7 @@ class Cooker extends User {
   @override
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'cookerName': cookerName,
       'menu': menu,
       'email': email,
@@ -109,6 +117,7 @@ class Deliverer extends User {
   final String lastName;
 
   Deliverer({
+    super.id,
     required this.firstName,
     required this.lastName,
     required super.email,
@@ -121,6 +130,7 @@ class Deliverer extends User {
 
   factory Deliverer.fromJson(Map<String, dynamic> json) {
     return Deliverer(
+      id: json['id'],
       firstName: json['firstName'],
       lastName: json['lastName'],
       email: json['email'],
@@ -135,6 +145,7 @@ class Deliverer extends User {
   @override
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'firstName': firstName,
       'lastName': lastName,
       'email': email,

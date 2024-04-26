@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:deliveryz_front/database/kitchen/kitchen_queries.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:deliveryz_front/models/order.dart';
+import 'package:deliveryz_front/utils/shared_prefs_manager.dart';
+import 'package:deliveryz_front/database/order/order_queries.dart';
 
 class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});
@@ -10,7 +11,7 @@ class OrdersPage extends StatefulWidget {
 }
 
 class _OrdersPageState extends State<OrdersPage> {
-  late Future<List<dynamic>> futureOrders;
+  late Future<List<Order>> futureOrders;
 
   @override
   void initState() {
@@ -19,22 +20,15 @@ class _OrdersPageState extends State<OrdersPage> {
   }
 
   void _loadUserData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userId = prefs.getString('id') ?? '';
-    String role = prefs.getString('role') ?? '';
-
-    if (role == 'Restaurant') {
-      futureOrders = getOrdersByCooker(userId);
-      setState(() {});
-    } else {
-      print('Not authorized or no role found');
-    }
+    String userId = (await SharedPrefsManager.getId())!;
+    futureOrders = OrderService().getOrdersById(userId);
+    setState(() {});
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Orders for Cooker'),
+        title: Text('Liste des commandes'),
         actions: [
           IconButton(
             icon: Icon(Icons.add),
@@ -42,7 +36,7 @@ class _OrdersPageState extends State<OrdersPage> {
           ),
         ],
       ),
-      body: FutureBuilder<List<dynamic>>(
+      body: FutureBuilder<List<Order>>(
         future: futureOrders,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -58,25 +52,29 @@ class _OrdersPageState extends State<OrdersPage> {
           return ListView.builder(
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
-              var order = snapshot.data![index];
-              return ListTile(
-                title: Text(
-                  order['productName'] ?? 'No product name',
-                  style: TextStyle(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .secondary,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+              Order order = snapshot.data![index];
+              return Card(
+                elevation: 4,
+                margin: EdgeInsets.all(8),
+                child: ListTile(
+                  title: Text(
+                    order.productName ?? 'No product name',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                subtitle: Text(
-                  'Quantity: ${order['quantity']} - \$${order['totalPrice']}',
-                  style: TextStyle(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface,
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Quantity: ${order.quantity} - \$${order.totalPrice}'),
+                      Text('Client ID: ${order.clientId}'),
+                      Text('Cooker ID: ${order.cookerId}'),
+                      if (order.status != null) Text('Status: ${order.status}'),
+                    ],
                   ),
+                  isThreeLine: true,
                 ),
               );
             },

@@ -27,10 +27,25 @@ exports.cancel = async (orderId) => {
     if (!order.exists) {
         throw new Error("Order not found");
     }
-    
+
     await db.collection('orders').doc(orderId).update({
         status: 'canceled'
     });
 
     return { id: orderId, ...order.data(), status: 'canceled' };
+};
+
+exports.findAllByClientId = async (clientId) => {
+    const snapshot = await db.collection('orders').where('clientId', '==', clientId).get();
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+};
+
+exports.findAllByCookerId = async (cookerId) => {
+    const snapshot = await db.collection('orders').where('cookerId', '==', cookerId).get();
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+};
+
+exports.findAllByDelivererId = async (delivererId) => {
+    const snapshot = await db.collection('orders').where('delivererId', '==', delivererId).get();
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };

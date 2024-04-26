@@ -42,3 +42,30 @@ exports.cancelOrder = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.getOrdersByClientId = async (req, res, next) => {
+    try {
+        const orders = await orderService.findAllByClientId(req.params.clientId);
+        res.json(orders);
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getOrdersByCookerId = async (req, res, next) => {
+    try {
+        const orders = await orderService.findAllByCookerId(req.params.cookerId);
+        res.json(orders);
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getOrdersByDelivererId = async (req, res, next) => {
+    try {
+        const orders = await orderService.findAllByDelivererId(req.params.delivererId);
+        res.json(orders);
+    } catch (error) {
+        next(error);
+    }
+};

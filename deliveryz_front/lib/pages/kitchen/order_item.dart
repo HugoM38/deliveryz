@@ -1,6 +1,6 @@
 import 'package:deliveryz_front/pages/home/home_cooker.dart';
 import 'package:flutter/material.dart';
-import 'package:deliveryz_front/database/order_queries.dart';
+import 'package:deliveryz_front/database/order/order_queries.dart';
 
 
 class OrderItemWidget extends StatelessWidget {
