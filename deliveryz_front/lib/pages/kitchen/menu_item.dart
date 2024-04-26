@@ -43,7 +43,11 @@ class MenuItemWidget extends StatelessWidget {
                 const SizedBox(width: 16),
                 ElevatedButton(
                   onPressed: onPressed,
-                  child: const Text('Button'),
+                  child: Text('Delete',
+                    style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    )
+                  ),
                 ),
               ],
             ),

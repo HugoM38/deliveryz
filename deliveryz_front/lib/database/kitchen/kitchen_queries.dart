@@ -1,53 +1,85 @@
 import 'dart:convert';
 
+import 'package:deliveryz_front/utils/shared_prefs_manager.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 var baseUrl = 'http://localhost:3000/kitchens/';
 
-Future<List<List<String>>> getMenu(String cookerId) async {
+Future<String> getMenu(String cookerId) async {
   Uri url = Uri.parse("${baseUrl}menu/$cookerId");
   try {
     var response = await http.get(
       url,
       headers: <String, String>{
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${ await SharedPrefsManager.getToken()}'
       },
     );
 
     if (response.statusCode != 200) {
       throw Exception(response.body);
     }
-
-    return jsonDecode(response.body);
+    return response.body;
   } catch (e) {
     throw Exception(e.toString());
   }
 }
 
-Future<void> addMenu(String cookerId, String item, double price) async {
+Future<void> addMenu(String cookerId, String item, double? price) async {
   Uri url = Uri.parse("${baseUrl}menu/$cookerId");
   try {
-    List<List<String>> menu = await getMenu(cookerId);
     var response = await http.post(
       url,
       headers: <String, String>{
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${ await SharedPrefsManager.getToken()}'
       },
-      body: jsonEncode({'menu': [...menu,[menu.length,item,price]]}),
+      body: jsonEncode({
+        'name': item,
+        'price': price
+      }),
     );
 
     if (response.statusCode != 200) {
       throw Exception(response.body);
     }
-
-    return jsonDecode(response.body);
+    if (response.body.isNotEmpty) {
+      return jsonDecode(response.body);
+    } else {
+      return;
+    }
   } catch (e) {
     throw Exception(e.toString());
   }
 }
 
-Future<void> removeMenu(String cookerId, String item, double price, int index) async {
+Future<void> removeMenu(String cookerId, int id) async {
   Uri url = Uri.parse("${baseUrl}menu/$cookerId");
+
+  try {
+    var response = await http.put(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${ await SharedPrefsManager.getToken()}'
+      },
+      body: jsonEncode({
+        'itemId': id,
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception(response.body);
+    }
+    if (response.body.isNotEmpty) {
+      return jsonDecode(response.body);
+    } else {
+      return;
+    }
+  } catch (e) {
+    throw Exception(e.toString());
+  }
 }
 
 Future<List<List<String>>?> getCookers() async {
