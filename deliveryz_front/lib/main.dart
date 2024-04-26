@@ -1,4 +1,5 @@
 import 'package:deliveryz_front/pages/auth/login.dart';
+import 'package:deliveryz_front/pages/auth/signup.dart';
 import 'package:deliveryz_front/pages/home/home_cooker.dart';
 import 'package:deliveryz_front/pages/home/home_deliverer.dart';
 import 'package:deliveryz_front/pages/kitchen/kitchen.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         '/login': (context) => const LoginPage(),
+        '/signup':(context) => const SignupPage(),
         '/home-client': (context) => const HomeClientPage(),
         '/home-cooker': (context) => const HomeCookerPage(),
         '/home-deliverer': (context) => const HomeDelivererPage(),
