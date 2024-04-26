@@ -31,7 +31,7 @@ exports.orderReady = async (req, res) => {
             return res.status(404).json({ message: "Order not pending" });
         }
 
-        const account = await kitchenService.orderReady(req.body);
+        const account = await kitchenService.orderReady(req.params.id);
         res.status(200).json(account);
     } catch (error) {
         res.status(400).send(error.message);
