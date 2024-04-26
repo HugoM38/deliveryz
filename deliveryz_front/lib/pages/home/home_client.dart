@@ -12,6 +12,19 @@ class _HomeClientPageState extends State<HomeClientPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('DeliveryZ'),
+        actions: [ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.error),
+          ),
+          onPressed: () async {
+          await SharedPrefsManager.logoutUser();
+          if(context.mounted) {
+            Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+          }
+        }, child: const Text('Déconnexion'))],
+      ),
       body: Center(
         child: Text(
           'Home Client Page',

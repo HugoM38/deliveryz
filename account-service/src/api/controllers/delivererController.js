@@ -24,7 +24,7 @@ exports.createDeliverer = async (req, res) => {
         req.body.password = await authService.hashPassword(req.body.password);
         const deliverer = await delivererService.create(req.body);
         const token = authService.generateAccessToken(deliverer);
-        res.status(201).json({ accessToken: token });
+        res.status(201).json({ accessToken: token, id: deliverer.id });
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -44,7 +44,7 @@ exports.loginDeliverer = async (req, res) => {
             return res.status(401).send('Invalid password');
         }
         const token = authService.generateAccessToken(deliverer[0]);
-        res.json({ accessToken: token });
+        res.json({ accessToken: token, id: deliverer[0].id});
     } catch (error) {
         res.status(500).send(error.message);
     }

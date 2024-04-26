@@ -1,11 +1,14 @@
 import 'package:deliveryz_front/pages/auth/login.dart';
+import 'package:deliveryz_front/pages/auth/signup.dart';
 import 'package:deliveryz_front/pages/home/home_cooker.dart';
 import 'package:deliveryz_front/pages/home/home_deliverer.dart';
 import 'package:deliveryz_front/pages/kitchen/kitchen.dart';
 import 'package:deliveryz_front/pages/kitchen/kitchenOrder.dart';
+import 'package:deliveryz_front/utils/auth_observer.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/home/home_client.dart';
+import 'pages/order.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,13 +22,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'DeliveryZ',
       debugShowCheckedModeBanner: false,
+      navigatorObservers: [AuthObserver()],
       routes: <String, WidgetBuilder>{
         '/login': (context) => const LoginPage(),
+        '/signup':(context) => const SignupPage(),
         '/home-client': (context) => const HomeClientPage(),
         '/home-cooker': (context) => const HomeCookerPage(),
         '/home-deliverer': (context) => const HomeDelivererPage(),
         '/kitchen-menu': (context) => const KitchenPage(),
-        '/kitchen-order': (context) => const KitchenOrderPage()
+        '/kitchen-order': (context) => const KitchenOrderPage(),
+        '/order': (context) => const OrdersPage(),
       },
       theme: ThemeData(
               colorScheme: const ColorScheme(
@@ -44,7 +50,7 @@ class MyApp extends StatelessWidget {
                 onSurface: Color(0xffEAF0CE),
               ),
             ),
-      home: const LoginPage(),
+      initialRoute: '/login',
     );
   }
 }

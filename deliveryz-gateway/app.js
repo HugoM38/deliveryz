@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors({
-    origin: true, // Pour les tests de développement, permet à toutes les origines d'accéder à votre API
+    origin: true,
 }));
 
 app.use('/accounts', createProxyMiddleware({

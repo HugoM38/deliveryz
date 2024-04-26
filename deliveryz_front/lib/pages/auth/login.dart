@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Login Page',
+                'Connexion',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onBackground,
                   fontSize: 24,
@@ -109,11 +109,14 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         );
                         if (_selectedRole == 'Client') {
-                          Navigator.pushReplacementNamed(context, '/home-client');
+                          Navigator.pushReplacementNamed(
+                              context, '/home-client');
                         } else if (_selectedRole == 'Livreur') {
-                          Navigator.pushReplacementNamed(context, '/home-deliverer');
+                          Navigator.pushReplacementNamed(
+                              context, '/home-deliverer');
                         } else if (_selectedRole == 'Restaurant') {
-                          Navigator.pushReplacementNamed(context, '/home-cooker');
+                          Navigator.pushReplacementNamed(
+                              context, '/home-cooker');
                         }
                       }).catchError((error) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -131,11 +134,35 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   },
                   child: Text(
-                    'Login',
+                    'Se connecter',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onPrimary,
                     ),
                   )),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, '/signup');
+                  },
+                  child: Text(
+                    'Inscription',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  )),
+                const SizedBox(height: 16),
+              // Button to navigate to Orders Page
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/order');
+                },
+                child: Text(
+                  'Go to Orders',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                ),
+              ),
             ],
           ),
         ),

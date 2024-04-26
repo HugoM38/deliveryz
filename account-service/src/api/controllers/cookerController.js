@@ -24,7 +24,7 @@ exports.createCooker = async (req, res) => {
         req.body.password = await authService.hashPassword(req.body.password);
         const cooker = await cookerService.create(req.body);
         const token = authService.generateAccessToken(cooker);
-        res.status(201).json({ accessToken: token });
+        res.status(201).json({ accessToken: token, id: cooker.id });
     } catch (error) {
         res.status(500).send(error.message);
     }
