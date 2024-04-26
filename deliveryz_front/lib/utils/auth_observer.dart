@@ -16,9 +16,11 @@ class AuthObserver extends NavigatorObserver {
 
   Future<void> _checkAuthentication(String? routeName) async {
     bool isUserLogged = await SharedPrefsManager.isUserLogged();
-    String role = (await SharedPrefsManager.getRole())!;
+    String? role = await SharedPrefsManager.getRole();
 
-    if (isUserLogged && (routeName == '/login' || routeName == '/signup')) {
+    if (isUserLogged &&
+        (routeName == '/login' ||
+            routeName == '/signup')) {
       navigator!.pushNamedAndRemoveUntil(
           role == 'Client'
               ? '/home-client'
