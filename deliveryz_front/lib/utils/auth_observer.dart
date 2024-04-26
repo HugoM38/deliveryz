@@ -6,16 +6,12 @@ class AuthObserver extends NavigatorObserver {
 
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    print(
-        'didPush - Current: ${route.settings.name}, Previous: ${previousRoute?.settings.name}');
     super.didPush(route, previousRoute);
     _checkAuthentication(route.settings.name);
   }
 
   @override
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
-    print(
-        'didReplace - New: ${newRoute?.settings.name}, Old: ${oldRoute?.settings.name}');
     super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
     _checkAuthentication(newRoute?.settings.name);
   }

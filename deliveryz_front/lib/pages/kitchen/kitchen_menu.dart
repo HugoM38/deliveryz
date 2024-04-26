@@ -7,8 +7,8 @@ import 'menu_item.dart';
 
 import '../../database/kitchen/kitchen_queries.dart';
 
-class KitchenPage extends StatelessWidget {
-  const KitchenPage({super.key});
+class KitchenMenuPage extends StatelessWidget {
+  const KitchenMenuPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +16,10 @@ class KitchenPage extends StatelessWidget {
       future: getData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(); // Affichez un indicateur de chargement pendant que les données sont chargées
+          return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
-          // Si les données sont chargées avec succès, affichez la page principale
           return Scaffold(
             body: Center(
               child: Padding(
@@ -30,34 +29,39 @@ class KitchenPage extends StatelessWidget {
                   children: [
                     for (int index = 0; index < jsonList.length; index++)
                       MenuItemWidget(
-                      leftText: jsonList[index]['name'],
+                        leftText: jsonList[index]['name'],
                         rightText: '\$${jsonList[index]['price']}',
                         onPressed: () {
                           removeMenu(id, index).then((_) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 backgroundColor:
-                                Theme.of(context).colorScheme.secondary,
+                                    Theme.of(context).colorScheme.secondary,
                                 content: Text('Item removed',
                                     style: TextStyle(
-                                      color:
-                                      Theme.of(context).colorScheme.onPrimary,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary,
                                     )),
                               ),
                             );
                             Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (BuildContext context) => KitchenPage()),
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      const KitchenMenuPage()),
                             );
                           }).catchError((error) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 backgroundColor:
-                                Theme.of(context).colorScheme.error,
+                                    Theme.of(context).colorScheme.error,
                                 content: Text(
                                   error.toString(),
                                   style: TextStyle(
-                                      color: Theme.of(context).colorScheme.onError),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onError),
                                 ),
                               ),
                             );
@@ -75,7 +79,8 @@ class KitchenPage extends StatelessWidget {
                             decoration: InputDecoration(
                               labelText: 'Item name',
                               labelStyle: TextStyle(
-                                color: Theme.of(context).colorScheme.onBackground,
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
                               ),
                             ),
                             style: TextStyle(
@@ -86,20 +91,22 @@ class KitchenPage extends StatelessWidget {
                         Expanded(
                           child: TextField(
                             onChanged: (text) {
-                              if(text.isEmpty){
+                              if (text.isEmpty) {
                                 price = null;
                               } else {
                                 price = double.parse(text);
                               }
                             },
                             inputFormatters: [
-                              FilteringTextInputFormatter.allow(RegExp(r'^\d+(\.\d*)?$')),
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'^\d+(\.\d*)?$')),
                             ],
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               labelText: 'Price',
                               labelStyle: TextStyle(
-                                color: Theme.of(context).colorScheme.onBackground,
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
                               ),
                             ),
                             style: TextStyle(
@@ -109,32 +116,37 @@ class KitchenPage extends StatelessWidget {
                         ),
                         const SizedBox(width: 16),
                         ElevatedButton(
-                          onPressed: (){
+                          onPressed: () {
                             addMenu(id, item, price).then((_) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   backgroundColor:
-                                  Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context).colorScheme.secondary,
                                   content: Text('Item added',
                                       style: TextStyle(
-                                        color:
-                                        Theme.of(context).colorScheme.onPrimary,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary,
                                       )),
                                 ),
                               );
                               Navigator.pushReplacement(
                                 context,
-                                MaterialPageRoute(builder: (BuildContext context) => KitchenPage()),
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        const KitchenMenuPage()),
                               );
                             }).catchError((error) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   backgroundColor:
-                                  Theme.of(context).colorScheme.error,
+                                      Theme.of(context).colorScheme.error,
                                   content: Text(
                                     error.toString(),
                                     style: TextStyle(
-                                        color: Theme.of(context).colorScheme.onError),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onError),
                                   ),
                                 ),
                               );
@@ -161,10 +173,10 @@ class KitchenPage extends StatelessWidget {
 }
 
 String item = '';
-double? price = null;
+double? price;
 String id = '';
 String menu = '';
-var jsonList;
+List jsonList = [];
 
 Future<void> getData() async {
   id = (await SharedPrefsManager.getId())!;
