@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'menu_item.dart';
 
-//import '../../database/kitchen/kitchen_queries.dart';
+import '../../database/kitchen/kitchen_queries.dart';
 
 class KitchenPage extends StatelessWidget {
   const KitchenPage({Key? key}) : super(key: key);
 
   Widget build(BuildContext context) {
-    //var data = getMenu("cookerId");
+    var data = getMenu("cookerId");
     return Scaffold(
       body: Center(
         child: Padding(

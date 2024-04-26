@@ -31,10 +31,10 @@ Future<void> login(String email, String password, String role) async {
     if (response.statusCode != 200) {
       throw Exception(response.body);
     }
-
+ var id = jsonDecode(response.body)['id'];
     var token = jsonDecode(response.body)['accessToken'];
-    await SharedPrefsManager.logUser(token, role);
-    
+    await SharedPrefsManager.logUser(token, role, id);
+
   } catch (e) {
     throw Exception(e.toString());
   }
