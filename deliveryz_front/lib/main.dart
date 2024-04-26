@@ -2,7 +2,6 @@ import 'package:deliveryz_front/pages/auth/login.dart';
 import 'package:deliveryz_front/pages/auth/signup.dart';
 import 'package:deliveryz_front/pages/home/home_cooker.dart';
 import 'package:deliveryz_front/pages/home/home_deliverer.dart';
-import 'package:deliveryz_front/pages/kitchen/kitchen_menu.dart';
 import 'package:deliveryz_front/utils/auth_observer.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +27,6 @@ class MyApp extends StatelessWidget {
         '/home-client': (context) => const HomeClientPage(),
         '/home-cooker': (context) => const HomeCookerPage(),
         '/home-deliverer': (context) => const HomeDelivererPage(),
-        '/kitchen-menu': (context) => const KitchenMenuPage(),
         '/order': (context) => const OrdersPage(),
       },
       theme: ThemeData(

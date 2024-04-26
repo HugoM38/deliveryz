@@ -4,8 +4,10 @@ class MenuItemWidget extends StatelessWidget {
   final String leftText;
   final String rightText;
   final VoidCallback onPressed;
+  final bool isCookerOwner;
 
   const MenuItemWidget({super.key,
+    required this.isCookerOwner,
     required this.leftText,
     required this.rightText,
     required this.onPressed,
@@ -41,12 +43,15 @@ class MenuItemWidget extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 16),
-                ElevatedButton(
-                  onPressed: onPressed,
-                  child: Text('Delete',
-                    style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    )
+                Visibility(
+                  visible: isCookerOwner,
+                  child: ElevatedButton(
+                    onPressed: onPressed,
+                    child: Text('Delete',
+                      style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      )
+                    ),
                   ),
                 ),
               ],
