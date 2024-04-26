@@ -24,7 +24,7 @@ exports.createClient = async (req, res) => {
         req.body.password = await authService.hashPassword(req.body.password);
         const client = await clientService.create(req.body);
         const token = authService.generateAccessToken(client);
-        res.status(201).json({ accessToken: token });
+        res.status(201).json({ accessToken: token, id: client.id });
     } catch (error) {
         res.status(500).send(error.message);
     }
