@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:deliveryz_front/utils/shared_prefs_manager.dart';
 import 'package:deliveryz_front/models/user.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 var baseUrl = 'http://localhost:3000/kitchens/';
@@ -112,10 +113,6 @@ Future<List<List<String>>?> getOrders() async {
   return null;
 }
 
-Future<void> orderReady() async {
-  return;
-}
-
 Future<List<dynamic>> getOrdersByCooker(String cookerId) async {
   Uri url = Uri.parse("${baseUrl}orders/$cookerId");
   try {
@@ -133,6 +130,27 @@ Future<List<dynamic>> getOrdersByCooker(String cookerId) async {
     return jsonDecode(response.body); 
   } catch (e) {
     throw Exception('Failed to fetch orders: ${e.toString()}');
+  }
+}
+
+Future<void> validateOrder(String orderId) async {
+  final uri =  Uri.parse("${baseUrl}orders/$orderId");
+  debugPrint("$uri");
+
+  final response = await http.put(
+    uri,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${ await SharedPrefsManager.getToken()}',
+    },
+    body: jsonEncode({
+      'status': "validate",
+    }),
+  );
+  if (response.statusCode == 200) {
+    return;
+  } else {
+    throw Exception('${response.body}');
   }
 }
 

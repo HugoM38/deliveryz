@@ -1,3 +1,4 @@
+import 'package:deliveryz_front/database/kitchen/kitchen_queries.dart';
 import 'package:deliveryz_front/pages/home/home_cooker.dart';
 import 'package:flutter/material.dart';
 import 'package:deliveryz_front/database/order/order_queries.dart';
@@ -79,7 +80,7 @@ class OrderItemWidget extends StatelessWidget {
                   );
                 });
               } : null,
-              child: Text('Validate',
+              child: Text('Cancel',
                   style: TextStyle(
                       color: Theme
                           .of(context)
@@ -90,12 +91,12 @@ class OrderItemWidget extends StatelessWidget {
             const SizedBox(width: 16),
             ElevatedButton(
               onPressed: isEnabled ? () {
-                OrderService().cancelOrder(orderId).then((_) { // TODO VALIDATE
+                validateOrder(orderId).then((_) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       backgroundColor:
                       Theme.of(context).colorScheme.secondary,
-                      content: Text('Item removed',
+                      content: Text('Ready',
                           style: TextStyle(
                             color:
                             Theme.of(context).colorScheme.onPrimary,
@@ -120,7 +121,7 @@ class OrderItemWidget extends StatelessWidget {
                   );
                 });
               } : null,
-              child: Text('Cancel',
+              child: Text('Validate',
                   style: TextStyle(
                       color: Theme
                           .of(context)
