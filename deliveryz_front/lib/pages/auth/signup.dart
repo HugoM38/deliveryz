@@ -348,6 +348,7 @@ class _SignupPageState extends State<SignupPage> {
             phoneNumber: _phoneNumberController.text,
           );
       }
+      print(user.toJson());
       signup(user, _selectedRole!).then((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

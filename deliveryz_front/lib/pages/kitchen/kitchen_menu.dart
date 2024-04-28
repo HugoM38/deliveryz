@@ -22,6 +22,7 @@ class KitchenMenuPage extends StatelessWidget {
     bool isCookerOwner = false;
 
     Future<void> getData() async {
+      id = cooker.id!;
       isCookerOwner = cooker.id == await SharedPrefsManager.getId();
       menu = await getMenu(cooker.id!);
       jsonList = jsonDecode(menu);

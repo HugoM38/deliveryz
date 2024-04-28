@@ -55,6 +55,9 @@ Future<void> signup(User user, String role) async {
     default:
       url = Uri.parse("${baseUrl}clients/");
   }
+  var newUser = jsonEncode(user.toJson());
+  newUser = newUser.replaceAll('"id":null,', '');
+
   try {
     var response = await http.post(
       url,

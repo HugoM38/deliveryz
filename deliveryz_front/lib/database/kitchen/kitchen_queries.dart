@@ -29,6 +29,7 @@ Future<String> getMenu(String cookerId) async {
 
 Future<void> addMenu(String cookerId, String item, double? price) async {
   Uri url = Uri.parse("${baseUrl}menu/$cookerId");
+  print(url);
   try {
     var response = await http.post(
       url,
